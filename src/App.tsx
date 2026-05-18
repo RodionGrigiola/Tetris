@@ -1,9 +1,7 @@
+import { Board } from "./comonents/Board";
+
 function App() {
-  return (
-    <div className="h-screen flex items-center justify-center bg-black text-white">
-      <h1 className="text-4xl font-bold">Tetris</h1>
-    </div>
-  );
+  return <Board />;
 }
 
 export default App;
