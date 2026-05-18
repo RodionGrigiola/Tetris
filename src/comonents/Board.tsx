@@ -3,6 +3,7 @@ import { createBoard } from "../utils/createBoard";
 import { FIGURES } from "../utils/figures";
 import { mergeBoard } from "../utils/mergeBoard";
 import { lockPiece } from "../utils/lockPiece";
+import { checkCollisions } from "../utils/checkCollisions";
 
 const BOARD_WIDTH = 10;
 const BOARD_HEIGHT = 20;
@@ -18,15 +19,11 @@ export function Board() {
   useEffect(() => {
     const interval = setInterval(() => {
       setPiece((prev) => {
-        const nextY = prev.y + 1;
-
-        const isAtBottom = nextY + prev.shape.length > 20;
-
-        if (isAtBottom) {
+        if (checkCollisions(board, piece)) {
           setBoard((prevBoard) => lockPiece(prevBoard, prev));
 
           return {
-            shape: FIGURES.T.shape,
+            shape: FIGURES.SQUARE.shape,
             x: 3,
             y: 0,
           };
@@ -40,7 +37,7 @@ export function Board() {
     }, 500);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [board, piece]);
 
   const renderedBoard = mergeBoard(board, piece);
 

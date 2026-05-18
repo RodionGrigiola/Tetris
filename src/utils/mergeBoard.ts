@@ -1,5 +1,3 @@
-// src/utils/mergeBoard.ts
-
 export const mergeBoard = (
   board: any[],
   piece: { shape: any; x: any; y: any },
