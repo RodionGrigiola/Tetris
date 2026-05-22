@@ -7,6 +7,7 @@ import {
 } from "../constants/constants";
 import { movePiece } from "../utils/movePiece";
 import type { GameState } from "../types/game";
+import { rotatePiece } from "../utils/rotatePiece";
 
 type UseKeysProps = {
   setGame: Dispatch<SetStateAction<GameState>>;
@@ -25,6 +26,10 @@ export const useKeys = ({ setGame }: UseKeysProps) => {
 
       if (event.key === "ArrowDown") {
         setGame((prev) => movePiece(prev, DONT_MOVE, MOVE_DOWN));
+      }
+
+      if (event.key === "ArrowUp") {
+        setGame((prev) => rotatePiece(prev));
       }
     };
     window.addEventListener("keydown", handleKeyDown);
