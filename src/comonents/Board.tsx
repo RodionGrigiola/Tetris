@@ -1,45 +1,25 @@
 import { useEffect, useState } from "react";
 import { createBoard } from "../utils/createBoard";
-import { FIGURES } from "../utils/figures";
 import { mergeBoard } from "../utils/mergeBoard";
-import { lockPiece } from "../utils/lockPiece";
-import { checkCollisions } from "../utils/checkCollisions";
-
-const BOARD_WIDTH = 10;
-const BOARD_HEIGHT = 20;
+import { createRandomPiece } from "../utils/createRandomPiece";
+import { gameTick } from "../utils/gameTick";
+import { BOARD_HEIGHT, BOARD_WIDTH, TICK_SPEED } from "../constants/constants";
 
 export function Board() {
-  const [board, setBoard] = useState(createBoard(BOARD_HEIGHT, BOARD_WIDTH));
-  const [piece, setPiece] = useState({
-    shape: FIGURES.T.shape,
-    x: 3,
-    y: 0,
+  const [game, setGame] = useState({
+    board: createBoard(BOARD_HEIGHT, BOARD_WIDTH),
+    piece: createRandomPiece(),
   });
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setPiece((prev) => {
-        if (checkCollisions(board, piece)) {
-          setBoard((prevBoard) => lockPiece(prevBoard, prev));
-
-          return {
-            shape: FIGURES.SQUARE.shape,
-            x: 3,
-            y: 0,
-          };
-        }
-
-        return {
-          ...prev,
-          y: prev.y + 1,
-        };
-      });
-    }, 500);
+      setGame((prev) => gameTick(prev));
+    }, TICK_SPEED);
 
     return () => clearInterval(interval);
-  }, [board, piece]);
+  }, []);
 
-  const renderedBoard = mergeBoard(board, piece);
+  const renderedBoard = mergeBoard(game);
 
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-black">
@@ -50,7 +30,7 @@ export function Board() {
               <div
                 key={cellIndex}
                 className={`w-6 h-6 border border-gray-900 ${
-                  cell === 0 ? "bg-gray-900" : "bg-cyan-400"
+                  cell ? cell : "bg-gray-900"
                 }`}
               />
             ))}

@@ -1,7 +1,9 @@
-export const checkCollisions = (board, piece, offsetY = 1) => {
+import type { Board, Piece } from "../types/game";
+
+export const checkCollisions = (board: Board, piece: Piece, offsetY = 1) => {
   return piece.shape.some((row, y) => {
     return row.some((cell, x) => {
-      if (cell === 0) return;
+      if (cell === 0) return false;
 
       const nextY = piece.y + y + offsetY;
       const nextX = piece.x + x;
@@ -10,11 +12,11 @@ export const checkCollisions = (board, piece, offsetY = 1) => {
         return true;
       }
 
-      if (nextX < 0 || nextX > board[0].length) {
+      if (nextX < 0 || nextX >= board[0].length) {
         return true;
       }
 
-      return board[nextY][nextX] === 1;
+      return Boolean(board[nextY]?.[nextX]);
     });
   });
 };
