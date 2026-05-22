@@ -6,7 +6,7 @@ import { lockPiece } from "./lockPiece";
 export const gameTick = (game: GameState): GameState => {
   const { board, piece } = game;
 
-  const hasCollisions = checkCollisions(board, piece);
+  const hasCollisions = checkCollisions(board, piece, 0, 1);
 
   if (hasCollisions) {
     return {

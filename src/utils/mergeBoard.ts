@@ -4,8 +4,6 @@ export const mergeBoard = (game: GameState) => {
   const { board, piece } = game;
   const newBoard = board.map((row) => [...row]);
 
-  console.log(piece.shape);
-
   piece.shape.forEach((row, y) => {
     row.forEach((cell, x) => {
       if (cell) {
