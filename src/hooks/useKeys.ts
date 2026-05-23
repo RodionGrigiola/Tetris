@@ -1,6 +1,7 @@
 import { type Dispatch, type SetStateAction, useEffect } from "react";
 import {
   DONT_MOVE,
+  GAME_STATUS,
   MOVE_DOWN,
   MOVE_LEFT,
   MOVE_RIGHT,
@@ -30,6 +31,16 @@ export const useKeys = ({ setGame }: UseKeysProps) => {
 
       if (event.key === "ArrowUp") {
         setGame((prev) => rotatePiece(prev));
+      }
+
+      if (event.key === "p") {
+        setGame((prev) => ({
+          ...prev,
+          status:
+            prev.status === GAME_STATUS.PLAYING
+              ? GAME_STATUS.PAUSE
+              : GAME_STATUS.PLAYING,
+        }));
       }
     };
     window.addEventListener("keydown", handleKeyDown);

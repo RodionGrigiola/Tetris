@@ -1,5 +1,5 @@
 import { type Dispatch, type SetStateAction, useEffect } from "react";
-import { TICK_SPEED } from "../constants/constants";
+import { GAME_STATUS, TICK_SPEED } from "../constants/constants";
 import type { GameState } from "../types/game";
 import { gameTick } from "../utils/gameTick";
 
@@ -10,7 +10,13 @@ type UseKeysProps = {
 export const useGameLoop = ({ setGame }: UseKeysProps) => {
   useEffect(() => {
     const interval = setInterval(() => {
-      setGame((prev) => gameTick(prev));
+      setGame((prev) => {
+        if (prev.status !== GAME_STATUS.PLAYING) {
+          return prev;
+        }
+
+        return gameTick(prev);
+      });
     }, TICK_SPEED);
 
     return () => clearInterval(interval);
